@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Progress-Bar</title>
+</head>
+
+<body>
+  <div class="progress-container">
+    <div class="scroll-content"></div>
+  </div>
+
+  <header>
+    <h1>Прогресс-бар скролла на JavaScript</h1>
+  </header>
+
+  <div class="container">
+    <section>
+      <h2>HTML-структура</h2>
+      <div class="comment">
+        Структура прогресс-бара очень простая — всего два вложенных div-элемента:
+      </div>
+
+      <p>
+        <strong>Внешний контейнер</strong> (<code>.progress-container</code>) — это фиксированная полоса вверху экрана.
+        <strong>Внутренний элемент</strong> (<code>.scroll-content</code>) — это сам индикатор прогресса, ширина
+        которого будет меняться.
+      </p>
+    </section>
+
+    <section>
+      <h2>CSS-стили прогресс-бара</h2>
+
+      <h3>Контейнер прогресс-бара</h3>
+      <div class="comment">
+        Контейнер создает светло-серую полосу вверху экрана, на которой будет отображаться прогресс:
+      </div>
+      <pre><code>.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background-color: rgba(0, 0, 0, 0.1); 
+    z-index: 1000;
+  }</code></pre>
+      <!-- Описание стилей контейнера остается прежним -->
+      <ul>
+        <li><code>position: fixed</code> — прикрепляет элемент к окну браузера</li>
+        <li><code>top: 0; left: 0;</code> — размещает элемент в верхнем левом углу</li>
+        <li><code>width: 100%</code> — растягивает на всю ширину окна</li>
+        <li><code>height: 12px</code> — задает высоту полосы</li>
+        <li><code>background-color: rgba(0, 0, 0, 0.1)</code> — задает фон</li>
+        <li><code>z-index: 1000</code> — обеспечивает отображение поверх других элементов</li>
+      </ul>
+
+      <h3>Сам прогресс-бар</h3>
+      <div class="comment">
+        Этот элемент будет увеличиваться по мере прокрутки страницы:
+      </div>
+      <pre><code>.scroll-content {
+    height: 100%;
+    width: 0; 
+    background: #3498db; 
+    transition: width 0.2s ease-out; 
+    position: relative;
+  }</code></pre>
+      <!-- Описание стилей прогресс-бара остается прежним -->
+      <ul>
+        <li><code>height: 100%</code> — занимает всю высоту контейнера</li>
+        <li><code>background: #3498db; </code> — цвет</li>
+        <li><code>width: 0</code> — изначально ширина 0</li>
+        <li><code>transition: width 0.2s ease</code> — обеспечивает плавное изменение ширины</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>JavaScript-логика</h2>
+      <p>Этот код заставляет прогресс-бар работать:</p>
+      <pre><code>function updateProgressBar() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercentage = (scrollTop / docHeight) * 100;
+    const scrollContent = document.querySelector('.scroll-content');
+    scrollContent.style.width = scrollPercentage + '%';
+  }
+  
+  window.addEventListener('scroll', updateProgressBar);
+  </code></pre>
+
+      <h3>Подробный разбор</h3>
+      <p>Давайте разберем каждую часть:</p>
+      <ul>
+        <li><strong>function updateProgressBar() {...}</strong>
+          <p>Функция обновляет прогресс-бар при каждом вызове.</p>
+        </li>
+        <li><strong>const scrollTop = window.scrollY;</strong>
+          <p>Получает текущую позицию прокрутки в пикселях от верха.</p>
+        </li>
+        <li><strong>const docHeight = document.documentElement.scrollHeight - window.innerHeight;</strong>
+          <p>Вычисляет прокручиваемую высоту страницы.</p>
+        </li>
+        <li><strong>const scrollPercentage = (scrollTop / docHeight) * 100;</strong>
+          <p>Переводит прокрутку в проценты.</p>
+        </li>
+        <li><strong>const scrollContent = document.querySelector('.scroll-content');</strong>
+          <p>Находит элемент прогресс-бара.</p>
+        </li>
+        <li><strong>scrollContent.style.width = scrollPercentage + '%';</strong>
+          <p>Устанавливает ширину в процентах.</p>
+        </li>
+        <li><strong>window.addEventListener('scroll', updateProgressBar);</strong>
+          <p>Обновляет при прокрутке.</p>
+        </li>
+      </ul>
+
+      <h3>Как это работает вместе?</h3>
+      <p>Процесс такой:</p>
+      <ul>
+        <li>Страница загружается — прогресс-бар инициализируется</li>
+        <li>Вы прокручиваете — ширина обновляется</li>
+        <li>Меняете размер окна — ширина пересчитывается</li>
+      </ul>
+      <div class="highlight">
+        Прогресс-бар виден сразу и плавно реагирует на любые действия!
+      </div>
+    </section>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
